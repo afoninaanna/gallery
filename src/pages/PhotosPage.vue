@@ -1,6 +1,7 @@
 <template lang="">
     <PhotoDialog :photo="currentPhoto" v-model="dialogVisible"/>
-    <PhotoForm @addPhoto="addPhoto"/>
+    <PhotoForm v-if="this.photos.length < 11" @addPhoto="addPhoto"/>
+    <div v-else  class="warning">Вы не можете загрузить больше фотографий</div>
     <div class="photos-container">
         <Photo v-for="photo in photos" v-bind:key = "photo.id" :photo="photo" @openPhoto="openPhoto"/>
     </div>
@@ -46,6 +47,11 @@ export default {
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
+    }
+    .warning {
+        text-align: center;
+        font-size: 26px;
+        padding-top: 20px;
     }
 
 </style>

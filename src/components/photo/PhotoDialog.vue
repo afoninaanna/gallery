@@ -3,7 +3,7 @@
         <div class="card">
             <img :src="photo.url" class="card-img-top" alt="...">
             <div class="card-body">
-                <p class="card-text">{{ photo.title }}</p>
+                <p class="card-text">{{ full_title }}</p>
             </div>
         </div>
     </div>
@@ -39,6 +39,11 @@ export default {
     methods: {
         closeDialog() {
             this.dialogVisible = false;
+        }
+    },
+    computed: {
+        full_title() {
+            return `Название фотографии - ${this.photo.title}`;
         }
     }
 }
