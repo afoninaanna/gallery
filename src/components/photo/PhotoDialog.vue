@@ -1,7 +1,7 @@
 <template lang="">
-    <div class="modal" tabindex="-1" :class="{close : !dialogVisible}" @click="closeDialog"> 
+    <div class="modal" tabindex="-1" :class="{close : !$store.getters.getDialogVisible}" @click="closeDialog"> 
         <div class="card">
-            <img :src="photo.url" class="card-img-top" alt="...">
+            <img :src="$store.getters.getCurrentPhoto.url" class="card-img-top" alt="...">
             <div class="card-body">
                 <p class="card-text">{{ full_title }}</p>
             </div>
@@ -10,40 +10,15 @@
 </template>
 <script>
 export default {
-    props: {
-        photo: {
-            type: Object,
-            required: true
-        },
-        modelValue: {
-            type: Boolean,
-            default: false
-        }
-    },
-    created() {
-        this.dialogVisible = this.modelValue;
-    },
-    data() {
-        return {
-           dialogVisible: false
-        }
-    },
-    watch: {
-        modelValue(newValue) {
-            this.dialogVisible = newValue;
-        },
-        dialogVisible(newValue) {
-            this.$emit('update:modelValue', newValue);
-        }
-    },
+    
     methods: {
         closeDialog() {
-            this.dialogVisible = false;
+            this.$store.commit('hideDialog');
         }
     },
     computed: {
         full_title() {
-            return `Название фотографии - ${this.photo.title}`;
+            return `Название фотографии - ${this.$store.getters.getCurrentPhoto.title}`;
         }
     }
 }

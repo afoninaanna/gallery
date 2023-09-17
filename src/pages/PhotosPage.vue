@@ -1,16 +1,16 @@
 <template lang="">
-    <PhotoDialog :photo="currentPhoto" v-model="dialogVisible"/>
+    <PhotoDialog/>
     <PhotoForm v-if="this.photos.length < 11" @addPhoto="addPhoto"/>
     <div v-else  class="warning">Вы не можете загрузить больше фотографий</div>
     <div class="photos-container">
-        <Photo v-for="photo in photos" v-bind:key = "photo.id" :photo="photo" @openPhoto="openPhoto"/>
+        <Photo v-for="photo in $store.getters.getAllPhotos" v-bind:key = "photo.id" :photo="photo"/>
     </div>
 </template>
 <script>
 import Photo from "@/components/photo/Photo";
 import PhotoForm from "@/components/photo/PhotoForm";
 import PhotoDialog from "@/components/photo/PhotoDialog";
-import axios from 'axios';
+import { mapActions } from 'vuex';
 
 export default {
     components: {
@@ -20,17 +20,19 @@ export default {
     },
     data: () => ({
         photos: [],
-        currentPhoto: {},
-        dialogVisible: false
+        // currentPhoto: {},
+        // dialogVisible: false
     }),
     mounted() {
+        // this.fetchPhotos();
         this.fetchPhotos();
     },
     methods: {
-        fetchPhotos() {
-            axios.get('https://jsonplaceholder.typicode.com/photos?_limit=10')
-                .then(responce => this.photos = responce.data)
-        },
+        ...mapActions(['fetchPhotos']),
+        // fetchPhotos() {
+        //     axios.get('https://jsonplaceholder.typicode.com/photos?_limit=10')
+        //         .then(responce => this.photos = responce.data)
+        // },
         addPhoto(photo) {
             this.photos.push(photo);
         },
